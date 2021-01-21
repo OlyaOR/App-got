@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 import {Col, Row, Container} from 'reactstrap';
 import Header from '../header/header';
 import RandomChar from '../randomChar/randomChar';
-import ItemList from '../itemList/itemList';
-import CharDetails from '../CharDetails/charDetails';
+import CharacterPage from '../charPage/charPage';
 import ErrorMessage from '../errorMessage/errorMessage';
 import styled from 'styled-components';
 
@@ -21,9 +20,8 @@ export default class App extends Component  {
     state = {
         showRandomChar: false,
         error: false,
-        newRandomChar: false,
+        //newRandomChar: false,
     }
-
     toggleRandomChar = () => {
         this.setState((state) => {
             return {
@@ -32,20 +30,20 @@ export default class App extends Component  {
         });
     }
     
-    changeRandomChar = () => {
-        this.setState((state) => {
-            return {
-                newRandomChar: true
-            } 
-        });
-    }
+    // changeRandomChar = () => {
+    //     this.setState((state) => {
+    //         return {
+    //             newRandomChar: true
+    //         } 
+    //     });
+    // }
     render() {
         if (this.state.error) {
             return <ErrorMessage/>
         }
         const char = this.state.showRandomChar ? <RandomChar/> : null;
-        const btn = this.state.showRandomChar ? <Btn onClick={this.changeRandomChar}>Change Random Character</Btn>: null;
-        const charNew = this.state.newRandomChar ? <RandomChar/> : null;
+        // const btn = this.state.showRandomChar ? <Btn onClick={this.changeRandomChar}>Change Random Character</Btn>: null;
+        // const charNew = this.state.newRandomChar ? <RandomChar/> : null;
         return (
             <> 
                 <Container>
@@ -55,24 +53,15 @@ export default class App extends Component  {
                     <Row>
                         <Col lg={{size: 5, offset: 0}}>
                             {char}
-                            {charNew}
                         </Col>
                     </Row>
                     <Row>
                         <Col md='7' className="d-flex justify-content-between">
                             <Btn onClick={this.toggleRandomChar}> Toggle Random Character
                             </Btn>
-                            {btn}
                         </Col>
                     </Row>
-                    <Row>
-                        <Col md='6'>
-                            <ItemList />
-                        </Col>
-                        <Col md='6'>
-                            <CharDetails />
-                        </Col>
-                    </Row>
+                    <CharacterPage/>
                 </Container>
             </>
         );
