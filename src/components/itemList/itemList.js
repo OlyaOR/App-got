@@ -1,23 +1,32 @@
 import React, {Component} from 'react';
 import './itemList.css';
-import GotService from '../../services/gotService';
-import ErrorMessage from '../errorMessage/errorMessage';
 import Spinner from '../spinner/spinner';
+import ErrorMessage from '../errorMessage/errorMessage';
 
 export default class ItemList extends Component {
-    gotService = new GotService();
+
     state = {
-        charlist: null,
+        itemlist: null,
         error: false
     }
+    
     componentDidMount() {
-        this.gotService.getAllCharacters()
-            .then((charlist) => {
+        const {getData} = this.props
+        getData()
+            .then((itemlist) => {
                 this.setState({
-                    charlist
+                    itemlist
                 })
             })
+            .catch( () => this.onError())
     }
+    onError(){
+        this.setState({
+            item: null,
+            error: true
+        })
+    }
+
     renderItems(arr) {
         return arr.map((item) => {
             const {id, name} = item;
@@ -25,7 +34,7 @@ export default class ItemList extends Component {
                 <li
                     key={id}
                     className="list-group-item"
-                    onClick={() => this.props.onCharSelected(id)}
+                    onClick={() => this.props.onItemSelected(id)}
                     >
                     {name}
                 </li>
@@ -33,15 +42,14 @@ export default class ItemList extends Component {
         })
     }
     render() {
-        const {charlist, error} = this.state;
-        
+        const {itemlist, error} = this.state;
         if (error) {
-            return <ErrorMessage/>;
+            return <ErrorMessage/>
         }
-        if (!charlist) {
+        if (!itemlist) {
             return <Spinner/>;
         }
-        const items = this.renderItems(charlist);
+        const items = this.renderItems(itemlist);
         return (
             <ul className="item-list list-group">
                 {items}

@@ -27,7 +27,7 @@ export default class RandomChar extends Component {
         });
     }
     updateChar = () => {
-        const id = Math.floor(Math.random()*140 + 25); // рандомное число от 25 до 140, floor округляет
+        const id = Math.floor(Math.random()*538 + 5); // рандомное число от 25 до 140, floor округляет
         //const id = 1300000; //для проверки ошибки
         
         this.gotService

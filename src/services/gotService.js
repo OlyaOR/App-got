@@ -13,35 +13,36 @@ export default class GotService {
         return await res.json();
     }
 
-    async getAllBooks() {
-        const res = await this.getResource(`/books/`);
+    getAllBooks= async () => {
+        const res = await this.getResource(`/books?pageSize=12`);
         return res.map(this._transformBook);
     }
     
-    async getBook(id) {
+    getBook = async (id) => {
         const book = await this.getResource(`/books/${id}/`);
         return this._transformBook(book)
     }
     
-    async getAllCharacters() {
-        const page = Math.floor(Math.random()*100 + 5);
+    getAllCharacters = async () => {
+        const page = Math.floor(Math.random()*76 + 5);
         const res = await this.getResource(`/characters?page=${page}&pageSize=7`);
         return res.map(this._transformCharacter);
         
     }
     
-    async getCharacter (id) {
+    getCharacter = async (id) => {
         const character = await this.getResource(`/characters/${id}`);
         return this._transformCharacter(character);
     }
     
-    async getAllHouses() {
-        const res = await this.getResource(`/houses/`);
+    getAllHouses= async () => {
+        const page = Math.floor(Math.random()*54 + 1);
+        const res = await this.getResource(`/houses?page=${page}&pageSize=7`);
         return res.map(this._transformHouse);
     }
     
     
-    async getHouse(id) {
+    getHouse = async (id) => {
         const house = await this.getResource(`/houses/${id}/`);
         return this._transformHouse(house);
     }
@@ -66,20 +67,21 @@ export default class GotService {
 
     _transformHouse = (house) => {
         return {
+            id: house.url.match(/\d/g).join(''),
             name: this.isSet(house.name),
             region: this.isSet(house.region),
             words: this.isSet(house.words),
             titles: this.isSet(house.titles),
-            overlord: this.iisSet(house.overlord),
-            ancestralWeapons: this.isSet(house.ancestralWeapons)
+            ancestralWeapons: this.isSet(house.ancestralWeapons),
         };
     }
     
     _transformBook = (book) => {
         return {
+            id: book.url.match(/\d/g).join(''),
             name: this.isSet(book.name),
             numberOfPages: this.isSet(book.numberOfPages),
-            publiser: this.isSet(book.publiser),
+            publisher: this.isSet(book.publisher),
             released: this.isSet(book.released)
         };
     }
